@@ -57,8 +57,8 @@ def process_image():
     img_array = np.frombuffer(image2.content, dtype=np.uint8)
     after = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
 
-    desired_width = 1280
-    desired_height = 720
+    desired_width = 800
+    desired_height = 600
 
     resized_image_before = cv2.resize(before, (desired_width, desired_height))
     resized_image_after = cv2.resize(after, (desired_width, desired_height))
@@ -70,14 +70,15 @@ def process_image():
 
 
     # Compute SSIM between two images
-    orb = orb_sim(before_gray, after_gray)
-    ssim = structural_sim(before_gray, after_gray) #1.0 means identical. Lower = not similar
+    orb = orb_sim(before_gray, after_gray) * 100
+    ssim = structural_sim(before_gray, after_gray) * 100#1.0 means identical. Lower = not similar
 
     print("ORB similarity:", orb)
+    print("ORB similarity:", ssim)
 
     return {
-        "ORB": str(orb),
-        "SSIM": str(ssim)
+        "ORB": str(round(orb)),
+        "SSIM": str(round(ssim))
         } # Convert score to a string before returning
 
 if __name__ == '__main__':
